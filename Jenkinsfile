@@ -38,19 +38,19 @@ pipeline {
                 sh "docker image prune --all --force --filter 'until=48h'"
             }
         }
-        stage('Provision Server') { 
-            steps { 
-                script { 
-                    withCredentials([file(credentialsId: gcpCreds, variable: 'GCP_CREDENTIALS')]) { 
-                        sh ''' 
-                        export GOOGLE_APPLICATION_CREDENTIALS=$GCP_CREDENTIALS 
-                          terraform init
+        stage('Provision Server') {
+            steps {
+                script {
+                    withCredentials([file(credentialsId: gcpCreds, variable: 'GCP_CREDENTIALS')]) {
+                        sh '''
+                        export GOOGLE_APPLICATION_CREDENTIALS=$GCP_CREDENTIALS
                           terrascan scan -i terraform -t gcp
-                          terraform apply -auto-approve 
-                        ''' 
-                    } 
-                } 
-            } 
+                          terraform init
+                          terraform apply -auto-approve
+                        '''
+                    }
+                }
+            }
         }
     }
 }
