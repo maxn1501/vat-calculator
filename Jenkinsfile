@@ -44,7 +44,8 @@ pipeline {
                     withCredentials([file(credentialsId: gcpCreds, variable: 'GCP_CREDENTIALS')]) { 
                         sh ''' 
                         export GOOGLE_APPLICATION_CREDENTIALS=$GCP_CREDENTIALS 
-                          terraform init 
+                          terraform init
+                          terrascan scan -i terraform -t gcp
                           terraform apply -auto-approve 
                         ''' 
                     } 
